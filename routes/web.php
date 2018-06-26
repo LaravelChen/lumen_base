@@ -6,7 +6,7 @@ $router->group(['prefix' => 'api',], function ($router) {
 
     //要登录
     $router->group(['middleware' => 'auth:api'], function ($router) {
-        $router->post('me', 'UsersController@me');
+        $router->post('getUser', 'UsersController@getUser');
         $router->post('logout', 'UsersController@logout');
         $router->post('refresh', 'UsersController@refresh');
     });

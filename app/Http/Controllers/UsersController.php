@@ -30,7 +30,7 @@ class UsersController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function me()
+    public function getUser()
     {
         $userInfo = $this->guard()->user();
         return success($userInfo);
