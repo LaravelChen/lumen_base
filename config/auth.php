@@ -15,6 +15,7 @@ return [
 
     'defaults' => [
         'guard' => env('AUTH_GUARD', 'api'),
+        'passwords' => 'users',
     ],
 
     /*
@@ -35,7 +36,10 @@ return [
     */
 
     'guards' => [
-        'api' => ['driver' => 'api'],
+        'api' => [
+            'driver' => 'jwt',
+            'provider' => 'users',
+        ],
     ],
 
     /*
@@ -56,7 +60,10 @@ return [
     */
 
     'providers' => [
-        //
+        'users' => [
+            'driver' => 'eloquent',//这里是因为我用的mysql做的测试
+            'model' => \App\User::class,
+        ],
     ],
 
     /*
@@ -79,7 +86,7 @@ return [
     */
 
     'passwords' => [
-        //
+
     ],
 
 ];
