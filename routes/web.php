@@ -5,7 +5,7 @@ $router->group(['prefix' => 'api',], function ($router) {
     $router->post('login', 'UsersController@login');
 
     //要登录
-    $router->group(['middleware' => 'auth'], function ($router) {
+    $router->group(['middleware' => 'auth:api'], function ($router) {
         $router->post('me', 'UsersController@me');
         $router->post('logout', 'UsersController@logout');
         $router->post('refresh', 'UsersController@refresh');

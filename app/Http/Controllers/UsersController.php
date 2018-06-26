@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 
-use App\User;
+use App\Com\Code\FrameWorkCode;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -20,9 +20,9 @@ class UsersController extends Controller
     {
         $credentials = $request->only('email', 'password');
         if ($token = $this->guard()->attempt($credentials)) {
-            return $this->respondWithToken($token);
+            return success($this->respondWithToken($token));
         }
-        return response()->json(['error' => 'Unauthorized'], 401);
+        return error(FrameWorkCode::ERROR_LOGIN);
     }
 
     /**
@@ -32,7 +32,8 @@ class UsersController extends Controller
      */
     public function me()
     {
-        return response()->json($this->guard()->user());
+        $userInfo = $this->guard()->user();
+        return success($userInfo);
     }
 
     /**
@@ -44,7 +45,7 @@ class UsersController extends Controller
     {
         $this->guard()->logout();
 
-        return response()->json(['message' => 'Successfully logged out']);
+        return success(true);
     }
 
     /**
@@ -57,7 +58,7 @@ class UsersController extends Controller
         try {
             return $this->respondWithToken($this->guard()->refresh());
         } catch (\Exception $e) {
-            return response()->json(['message'=>$e->getMessage()]);
+            return response()->json(['message' => $e->getMessage()]);
         };
     }
 
@@ -70,11 +71,11 @@ class UsersController extends Controller
      */
     protected function respondWithToken($token)
     {
-        return response()->json([
+        return [
             'access_token' => $token,
             'token_type' => 'bearer',
             'expires_in' => $this->guard()->factory()->getTTL() * 60,
-        ]);
+        ];
     }
 
     /**

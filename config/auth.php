@@ -62,7 +62,7 @@ return [
     'providers' => [
         'users' => [
             'driver' => 'eloquent',//这里是因为我用的mysql做的测试
-            'model' => \App\User::class,
+            'model' => \App\Model\User::class,
         ],
     ],
 
